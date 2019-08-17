@@ -1,11 +1,11 @@
 # 系统稳定性——StackOverFlowError 常见原因及解决方法
 
-> 作者：涯海  
+> 作者：夏明（涯海）    
 > 创作日期：2019-07-26  
 > 专栏地址：[【稳定大于一切】](https://github.com/StabilityMan/StabilityGuide)
 
 
-每一个 JVM 线程都拥有一个私有的 JVM 线程栈，用于存放当前线程的 JVM 栈帧（包括被调用函数的参数、局部变量和返回地址等）。如果某个线程的线程栈空间被耗尽，没有足够资源分配给新创建的栈帧，就会抛出 `java.lang.StackOverflowError` 错误。
+每一个 JVM 线程都拥有一个私有的 JVM 线程栈，用于存放当前线程的 JVM 栈帧（包括被调用函数的参数、局部变量和返回地址等）。如果某个线程的线程栈空间被耗尽，没有足够资源分配给新创建的栈帧，就会抛出 `java.lang.StackOverflowError` 错误。本文总结了 StackOverflowError 常见原因及其解决方法，如有遗漏或错误，欢迎补充指正。
 
 ## 目录
 - [线程栈是如何运行的？](#线程栈是如何运行的)
@@ -138,3 +138,4 @@ Exception in thread "main" java.lang.StackOverflowError
 
 * [GitHub 地址](https://github.com/StabilityMan/StabilityGuide)
 * 钉钉群号：23179349
+* 如果阅读本文有所收获，欢迎分享给身边的朋友，期待更多同学的加入！

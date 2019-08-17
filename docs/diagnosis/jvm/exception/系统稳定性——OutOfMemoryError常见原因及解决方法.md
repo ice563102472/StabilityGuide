@@ -1,6 +1,6 @@
 # 系统稳定性——OutOfMemoryError 常见原因及解决方法
 
-> 作者：涯海  
+> 作者：夏明（涯海）   
 > 创作日期：2019-07-15  
 > 专栏地址：[【稳定大于一切】](https://github.com/StabilityMan/StabilityGuide)
 
@@ -10,7 +10,7 @@
 
 ![image](image/Java内存模型&OOM错误.png)
 
-如果对 JVM 内存模型和垃圾回收机制不熟悉，推荐阅读 [《咱们从头到尾说一次 Java 垃圾回收》](https://www.atatech.org/articles/143826)。
+如果对 JVM 内存模型和垃圾回收机制不熟悉，推荐阅读 [《咱们从头到尾说一次 Java 垃圾回收》](../gc/咱们从头到尾说一次垃圾回收.md)。
 
 ## 目录
 
@@ -140,14 +140,16 @@ max user processes              (-u) 16384
 
 
 ## 7. Kill process or sacrifice child
-有一种内核作业（Kernel Job）名为 Out of Memory Killer，它会在可用内存极低的情况下“杀死”（kill）某些进程。OOM Killer 会对所有进程进行打分，然后将评分较低的进程“杀死”，具体的评分规则可以参考 [Surviving the Linux OOM Killer](https://dev.to/rrampage/surviving-the-linux-oom-killer-2ki9)。
+有一种内核作业（Kernel Job）名为 Out of Memory Killer，它会在可用内存极低的情况下“杀死”（kill）某些进程。OOM Killer 会对所有进程进行打分，然后将评分较高的进程“杀死”，具体的评分规则可以参考 [Surviving the Linux OOM Killer](https://dev.to/rrampage/surviving-the-linux-oom-killer-2ki9)。
 
-不同于其他的 OOM 错误，`Kill process or sacrifice child` 错误不是由 JVM 层面触发的，而是由操作系统层面触发的。
+不同于其他的 OOM 错误，`Kill process or sacrifice child` 错误不是由 JVM 层面触发的，而是由操作系统层面触发的。当系统空闲内存突然大幅被释放，有较大概率触发了 OOM Killer 杀掉了某些进程。
+
+![image](image/OOM_Killer示意图.png)
 
 ### 原因分析
 默认情况下，Linux 内核允许进程申请的内存总量大于系统可用内存，通过这种“错峰复用”的方式可以更有效的利用系统资源。
 
-然而，这种方式也会无可避免地带来一定的“超卖”风险。例如某些进程持续占用系统内存，然后导致其他进程没有可用内存。此时，系统将自动激活 OOM Killer，寻找评分低的进程，并将其“杀死”，释放内存资源。
+然而，这种方式也会无可避免地带来一定的“超卖”风险。例如某些进程持续占用系统内存，然后导致其他进程没有可用内存。此时，系统将自动激活 OOM Killer，寻找评分高的进程，并将其“杀死”，释放内存资源。
 
 
 ### 解决方案
@@ -202,3 +204,4 @@ Direct ByteBuffer 的默认大小为 64 MB，一旦使用超出限制，就会�
 
 * [GitHub 地址](https://github.com/StabilityMan/StabilityGuide)
 * 钉钉群号：23179349
+* 如果阅读本文有所收获，欢迎分享给身边的朋友，期待更多同学的加入！
